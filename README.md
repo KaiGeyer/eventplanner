@@ -1,2 +1,8 @@
 # eventplanner
-Beispiel-Verzeichnis für Frontend-React
+
+Durchgängiges React-Kursprojekt
+
+Das Projekt wird im Verlauf des Kurses schrittweise erweitert.
+
+
+
