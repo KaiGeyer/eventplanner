@@ -33,6 +33,32 @@ function Search() {
     );
 }
 
+function EventCard() {
+    return(
+        <article>
+            <h2>React Grundlagen</h2>
+            <p>12.September 2026</p>
+            <button>Details</button>
+        </article>
+    );
+}
+
+
+function EventList() {
+    return(
+        <section>
+            <EventCard />
+            <EventCard />
+            <EventCard />
+
+        </section>
+
+    )
+
+
+}
+
+
 
 
 
@@ -47,13 +73,12 @@ function App() {
         <Header />
 
         <main>
-            <h2>Veranstaltungen</h2>
+            <Search />
+            <EventList />
         </main>
-
         <Footer />
         </>
     );
-
 }
 
 root.render( <App /> );
