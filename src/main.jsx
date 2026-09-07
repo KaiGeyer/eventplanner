@@ -1,66 +1,11 @@
 import {createRoot} from "react-dom/client";
 
+import Header from "./components/Header";
+import Search from "./components/Search";
+import EventList from "./components/EventList";
+import Footer from "./components/Footer";   
+
 const root = createRoot(document.querySelector("#root"));
-
-
-// Kompnete für Datei Header
-function Header() {
-    return (
-        <header>
-            <h1>EventPlanner</h1>
-        </header>
-    );
-}
-
-
-function Footer() {
-    return (
-        <footer>
-            <p>&copy; EventPlanner</p>
-        </footer>
-    );
-}
-
-
-function Search() {
-    return (
-        <form action="#" method="get">
-            <label htmlFor="search"></label>
-            { /* leere Elemente müssen wie bei XML mit einem /> geschlossen werden */ }
-            <input className="form-control" type="search" name="search" id="search" />
-            <button type="submit">Finde!!!</button>
-        </form>
-    );
-}
-
-function EventCard() {
-    return(
-        <article>
-            <h2>React Grundlagen</h2>
-            <p>12.September 2026</p>
-            <button>Details</button>
-        </article>
-    );
-}
-
-
-function EventList() {
-    return(
-        <section>
-            <EventCard />
-            <EventCard />
-            <EventCard />
-
-        </section>
-
-    )
-
-
-}
-
-
-
-
 
 
 //Haupt Komponente für das UI
