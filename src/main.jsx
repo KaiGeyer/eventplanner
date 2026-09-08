@@ -1,5 +1,7 @@
 import {createRoot} from "react-dom/client";
 
+import "./style.css";
+
 import Header from "./components/Header";
 import Search from "./components/Search";
 import EventList from "./components/EventList";
@@ -18,8 +20,10 @@ function App() {
         <Header />
 
         <main>
-            <Search />
-            <EventList />
+            <div className="container">
+                <Search />
+                <EventList />
+            </div>
         </main>
         <Footer />
         </>
