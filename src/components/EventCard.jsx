@@ -5,7 +5,7 @@ export default function EventCard(props) {
             <p>  { props.date } </p>
             <p> { props.location } </p>
             <p> { props.speaker } </p>
-            <p> { props.price } </p>
+            <p> { props.price } Euro </p>
             <p> { props.online } </p>
 
             <button>Details</button>
