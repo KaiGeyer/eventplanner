@@ -1,25 +1,40 @@
-export default function EventCard(props) {
+export default function EventCard ({
+    title,
+    date,
+    time,
+    duration,
+    location,
+    speaker,
+    level,
+    registr,
+    price,
+    online,
+    seats,
+    featured
+}) {
+
     return(
         <article className={`event-card
-                ${props.online ? "online" : "onsite" }
-                ${props.seats === 0 ? "sold-out" : ""}
-                ${props.featured ? "featured" : "" }`}
+                ${online ? "online" : "onsite" }
+                ${seats === 0 ? "sold-out" : ""}
+                ${featured ? "featured" : "" }`}
 
         >
-            <h2> { props.title } </h2>
-            <p>  { props.date } </p>
-            <p>  { props.time } </p>
-            <p>  { props.duration } </p>
-            <p> { props.speaker } </p>
+            <h2> { title } </h2>
+            <p>  { date } </p>
+            <p>  { time } </p>
+            <p>  { duration } </p>
+            <p> { speaker } </p>
 
-            <p> { props.level } </p>
-            <p> { props.registr } </p>
+            <p> { level } </p>
+            <p> { registr } </p>
 
 
-            <p> { props.price } Euro </p>
-            <p> { props.online ? "Online" : props.location } </p>
+            <p> { price } Euro </p>
+            <p> { online ? "Online" : location } </p>
 
-            <button disabled={ props.seats === 0} >Details</button>
+            <button disabled={ seats === 0} >Details</button>
+
         </article>
     );
 }
