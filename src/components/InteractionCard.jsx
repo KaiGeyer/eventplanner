@@ -6,7 +6,6 @@ export default function InteractionCard({ title }) {
 
     function handleClick() {
         console.log("Button geklickt");
-
     }
 
     function handleMouseEnter() {
@@ -17,36 +16,29 @@ export default function InteractionCard({ title }) {
         console.log("Mouse leave");
     }
 
-
     return (
         <article
             className="interaction-card"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
         >
-            <h2>{ title } </h2>
+            <h2>{title} </h2>
 
-            <input 
-            type="text"
-            onChange={handleChange}
+            <input
+                type="text"
+                onChange={handleChange}
             />
 
-            <button onClick= {handleClick}>
+            <button onClick={handleClick}>
                 Aktion
             </button>
 
-            <button onClick= {handleClick}>
+            <button onClick={handleClick}>
                 Aktion_2
             </button>
 
-
-
         </article>
 
-
-
     );
-
-
 
 }

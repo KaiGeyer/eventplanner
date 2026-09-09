@@ -1,4 +1,4 @@
-export default function EventCard ({
+export default function EventCard({
     title,
     date,
     time,
@@ -13,27 +13,28 @@ export default function EventCard ({
     featured
 }) {
 
-    return(
+    return (
         <article className={`event-card
-                ${online ? "online" : "onsite" }
+                ${online ? "online" : "onsite"}
                 ${seats === 0 ? "sold-out" : ""}
-                ${featured ? "featured" : "" }`}
+                ${featured ? "featured" : ""}`}
 
         >
-            <h2> { title } </h2>
-            <p>  { date } </p>
-            <p>  { time } </p>
-            <p>  { duration } </p>
-            <p> { speaker } </p>
 
-            <p> { level } </p>
-            <p> { registr } </p>
+            <h2> {title} </h2>
+            <p>  {date} </p>
+            <p>  {time} </p>
+            <p>  {duration} </p>
+            <p> {speaker} </p>
+
+            <p> {level} </p>
+            <p> {registr} </p>
 
 
-            <p> { price } Euro </p>
-            <p> { online ? "Online" : location } </p>
+            <p> {price} Euro </p>
+            <p> {online ? "Online" : location} </p>
 
-            <button disabled={ seats === 0} >Details</button>
+            <button disabled={seats === 0} >Details</button>
 
         </article>
     );
