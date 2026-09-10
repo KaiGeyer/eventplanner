@@ -1,11 +1,13 @@
 import { createRoot } from "react-dom/client";
-import PriceCalculator from "./PriceCalculator";
+import BookingForm from "./BookingForm";
 
 
 function DemoApp() {
     return (
         <>
-            <PriceCalculator />
+            <BookingForm />
+
+
         </>
     );
 }
