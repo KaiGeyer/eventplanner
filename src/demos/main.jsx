@@ -1,9 +1,11 @@
 import { createRoot } from "react-dom/client";
+import PriceCalculator from "./PriceCalculator";
+
 
 function DemoApp() {
     return (
         <>
-
+            <PriceCalculator />
         </>
     );
 }
