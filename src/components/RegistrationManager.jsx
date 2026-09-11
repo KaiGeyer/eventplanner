@@ -1,9 +1,5 @@
 import { useState } from "react";
 
-
-import events from "../data/events.js";
-
-
 export default function RegistrationManager() {
     const [formData, setFormData] = useState({
         name: "",
@@ -32,6 +28,10 @@ export default function RegistrationManager() {
                     : value
         });
     }
+
+    <button type="button">
+
+    </button>
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -209,6 +209,7 @@ export default function RegistrationManager() {
         </section>
     );
 }
+
 
 
 
