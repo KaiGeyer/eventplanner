@@ -1,6 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export default function RegistrationManager() {
+import events from "../data/events.js";
+import RegistrationList from "./RegistrationList";
+import RegistrationForm from "./RegistrationForm";
+
+export default function RegistrationManager(
+    {
+        registrations,
+        setRegistrations
+    }
+) {
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -8,10 +17,24 @@ export default function RegistrationManager() {
         eventId: ""
     });
 
-    const [registrations, setRegistrations] = useState([]);
-
+    // State-Definitionen
     const [error, setError] = useState("");
     const [successBooking, setSuccessBooking] = useState(null);
+
+    // useEffect-Definition
+    useEffect(() => {
+        if (!successBooking) {
+            return;
+        }
+
+        const timeoutId = setTimeout(() => {
+            setSuccessBooking(null);
+        }, 3000);
+
+        return () => {
+            clearTimeout(timeoutId);
+        }
+    }, [successBooking]);
 
     function handleChange(event) {
         const {
@@ -19,6 +42,8 @@ export default function RegistrationManager() {
             value,
             type
         } = event.target;
+
+        setSuccessBooking(null);
 
         setFormData({
             ...formData,
@@ -28,10 +53,6 @@ export default function RegistrationManager() {
                     : value
         });
     }
-
-    <button type="button">
-
-    </button>
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -84,132 +105,47 @@ export default function RegistrationManager() {
         });
     }
 
+    function handleDelete(id) {
+        setRegistrations(
+            registrations.filter(
+                (registration) => registration.id !== id
+            )
+        )
+    }
+
     return (
         <section className="registration-manager">
             <h2>Event-Anmeldung</h2>
 
             {error && (
-                <p className="error-message">
+                <p className="alert error-message">
                     {error}
                 </p>
             )}
 
             {successBooking && (
-                <p className="success-message">
+                <p className="alert success-message">
                     Die Anmeldung für{" "}
                     <strong>{successBooking.name}</strong>{" "}
                     wurde erfolgreich erfasst.
                 </p>
             )}
 
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="name">
-                        Name
-                    </label>
+            <RegistrationForm
+                formData={formData}
+                events={events}
+                onChange={handleChange}
+                onSubmit={handleSubmit}
+            />
 
-                    <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                    />
-                </div>
+            <RegistrationList
+                formData={formData}
+                events={events}
+                registrations={registrations}
+                title="Anmeldungen"
+                onDelete={handleDelete}
+            />
 
-                <div>
-                    <label htmlFor="email">
-                        E-Mail
-                    </label>
-
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                    />
-                </div>
-
-                <div>
-                    <label htmlFor="participants">
-                        Teilnehmer
-                    </label>
-
-                    <input
-                        type="number"
-                        id="participants"
-                        name="participants"
-                        min="1"
-                        value={formData.participants}
-                        onChange={handleChange}
-                    />
-                </div>
-
-                <div>
-                    <label htmlFor="eventId">
-                        Veranstaltung
-                    </label>
-
-                    <select
-                        id="eventId"
-                        name="eventId"
-                        value={formData.eventId}
-                        onChange={handleChange}
-                    >
-                        <option value="" disabled>
-                            Bitte wählen
-                        </option>
-
-                        <option value="1">
-                            React Grundlagen
-                        </option>
-
-                        <option value="2">
-                            JSX und Komponenten
-                        </option>
-
-                        <option value="3">
-                            State und Events
-                        </option>
-                    </select>
-                </div>
-
-                <button type="submit">
-                    Anmeldung senden
-                </button>
-            </form>
-
-            <section className="registrations">
-                <h2>
-                    Anmeldungen ({registrations.length})
-                </h2>
-
-                {registrations.length === 0 && (
-                    <p>
-                        Noch keine Anmeldungen vorhanden.
-                    </p>
-                )}
-
-                {registrations.map((registration) => (
-                    <article
-                        key={registration.id}
-                        className="registration-card"
-                    >
-                        <h3>{registration.name}</h3>
-
-                        <p>
-                            E-Mail: {registration.email} <br />
-                            Teilnehmer: {registration.participants} <br />
-                            Event-ID: {registration.eventId}
-                        </p>
-                    </article>
-                ))}
-            </section>
         </section>
     );
 }
-
-
-
-

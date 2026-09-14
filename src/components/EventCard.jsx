@@ -1,40 +1,95 @@
+import { useState } from "react";
+
 export default function EventCard({
+    id,
     title,
     date,
+    level,
     time,
     duration,
     location,
     speaker,
-    level,
-    registr,
     price,
     online,
+    category,
     seats,
-    featured
+    featured,
+    registrationOpen,
+    registrations
 }) {
+    const [showDetails, setShowDetails] = useState(false);
+    const [favorite, setFavorite] = useState(false);
+    const eventRegistrations = registrations.filter(
+        registration =>
+            String(registration.eventId) === String(id)
+    );
+
+    const participantsCount =
+        eventRegistrations.reduce(
+            (sum, registration) => sum + registration.participants,
+            0
+        );
+
+
+
 
     return (
-        <article className={`event-card
-                ${online ? "online" : "onsite"}
-                ${seats === 0 ? "sold-out" : ""}
-                ${featured ? "featured" : ""}`}
-
+        <article
+            className={`event-card
+        ${online ? "online" : "onsite"}
+        ${seats === 0 ? "sold-out" : ""}
+        ${featured ? "featured" : ""}
+        ${favorite ? "favorite" : ""}`}
         >
+            <h2> {title}
+                {eventRegistrations.length !== 0 && (
+                    <sup className="badge text-bg-danger">{eventRegistrations.length}</sup>
+                )}
+                {favorite && (<sup className="badge text-bg-success">Favorit</sup>)}
+            </h2>
+            {showDetails && (
+                <div className="event-details">
+                    <p> {date} </p>
+                    <p> Schwierigkeit: {level} </p>
+                    <p> Beginn: {time} Uhr </p>
+                    <p> Dauer: {duration} UE</p>
+                    <p> Trainer: {speaker} </p>
+                    <p> Preis: {price} € </p>
+                    <p> {online ? "Online" : location} </p>
+                    <p> Kategorie: {category} </p>
+                    <p>
+                        verfügbare Plätze: {seats} {seats === 0 && <i>(ausgebucht)</i>} <br />
+                        {seats > 0 && seats < 3 && (<small>Nur noch wenige Plätze</small>)}
+                    </p>
+                    <p> Angemeldete Personen: {participantsCount}</p>
+                    <p> BlaBlaBla : {speaker}</p>
+                    <p> {featured && <strong>Empfohen</strong>} </p>
+                </div>
+            )}
 
-            <h2> {title} </h2>
-            <p>  {date} </p>
-            <p>  {time} </p>
-            <p>  {duration} </p>
-            <p> {speaker} </p>
+            <button
+                type="button"
+                disabled={seats === 0}
+                onClick={() => setShowDetails(!showDetails)}
+            >
+                {showDetails ? "Weniger anzeigen" : "Details anzeigen"}
+            </button>
 
-            <p> {level} </p>
-            <p> {registr} </p>
+            <button
+                type="button"
+                disabled={!registrationOpen}
+            >
+                Registrieren
+            </button>
 
-
-            <p> {price} Euro </p>
-            <p> {online ? "Online" : location} </p>
-
-            <button disabled={seats === 0} >Details</button>
+            <button
+                type="button"
+                onClick={() => setFavorite(!favorite)}
+            >
+                {favorite
+                    ? "Aus Favoriten entfernen"
+                    : "Als Favorit speichern"}
+            </button>
 
         </article>
     );

@@ -1,214 +1,92 @@
-import { useState } from "react";
+import { createRoot } from "react-dom/client";
+import { useState, useEffect } from "react";
 
+import "./style.css";
 
-import events from "../data/events.js";
+// relative Pfadangaben wie in HTML, z.B. "components/Header.jsx" funktionieren nicht in JSX
+// sie würden bei dieser Syntax wie Module behandelt. Richtig: "./components/Header.jsx".
+import Header from "./components/Header.jsx";
+import Footer from "./components/Footer.jsx";
+import Search from "./components/Search.jsx";
+import EventList from "./components/EventList.jsx";
+import InfoBox from "./components/InfoBox.jsx";
+import Section from "./components/Section.jsx";
+import RegistrationManager from "./components/RegistrationManager.jsx";
+import DeleteStorage from "./components/DeleteStorage.jsx";
 
+const root = createRoot(document.querySelector("#root"));
 
-export default function RegistrationManager() {
-    const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        participants: 1,
-        eventId: ""
+// Haupt-Komponente für das UI
+function App() {
+    const [registrations, setRegistrations] = useState(() => {
+        try {
+            const savedRegistrations = localStorage.getItem("registrations");
+            return savedRegistrations ? JSON.parse(savedRegistrations) : [];
+        } catch {
+            return [];
+        }
     });
 
-    const [registrations, setRegistrations] = useState([]);
+    useEffect(() => {
+        localStorage.setItem(
+            "registrations",
+            JSON.stringify(registrations)
+        );
+    }, [registrations]);
 
-    const [error, setError] = useState("");
-    const [successBooking, setSuccessBooking] = useState(null);
-
-    function handleChange(event) {
-        const {
-            name,
-            value,
-            type
-        } = event.target;
-
-        setFormData({
-            ...formData,
-            [name]:
-                type === "number"
-                    ? Number(value)
-                    : value
-        });
-    }
-
-    function handleSubmit(event) {
-        event.preventDefault();
-
-        setError("");
-        setSuccessBooking(null);
-
-        if (formData.name.trim() === "") {
-            setError("Bitte einen Namen eingeben.");
-            return;
-        }
-
-        if (formData.email.trim() === "") {
-            setError("Bitte eine E-Mail-Adresse eingeben.");
-            return;
-        }
-
-        if (formData.eventId === "") {
-            setError("Bitte eine Veranstaltung auswählen.");
-            return;
-        }
-
-        if (formData.participants < 1) {
-            setError(
-                "Die Teilnehmerzahl muss mindestens 1 betragen."
-            );
-            return;
-        }
-
-        const registration = {
-            id: Date.now(),
-            ...formData
-        };
-
-        setRegistrations([
-            ...registrations,
-            registration
-        ]);
-
-        setSuccessBooking({
-            name: formData.name,
-            eventId: formData.eventId
-        });
-
-        setFormData({
-            name: "",
-            email: "",
-            participants: 1,
-            eventId: ""
-        });
-    }
+    useEffect(() => {
+        document.title = `EventPlanner - ${registrations.length} Anmeldungen`;
+    }, [registrations]);
 
     return (
-        <section className="registration-manager">
-            <h2>Event-Anmeldung</h2>
+        // Platzhalter für ein Root-Element
+        // Fragment: gruppiert mehrere JSX-Elemente, ohne selbst ein HTML-Element im DOM zu erzeugen
+        <>
+            <Header />
+            <main>
+                <div className="container">
 
-            {error && (
-                <p className="error-message">
-                    {error}
-                </p>
-            )}
+                    {/* <Search />
 
-            {successBooking && (
-                <p className="success-message">
-                    Die Anmeldung für{" "}
-                    <strong>{successBooking.name}</strong>{" "}
-                    wurde erfolgreich erfasst.
-                </p>
-            )}
+          <InfoBox title="Hinweis">
+            <p>Die Anmeldung ist ab sofort möglich.</p>
+          </InfoBox> */}
 
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="name">
-                        Name
-                    </label>
+                    <Section title="Nächste Veranstaltungen">
+                        <p>Hier findest Du eine Auswahl unserer kommenden Events.</p>
 
-                    <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                    />
-                </div>
+                        <EventList
+                            registrations={registrations}
+                        />
+                    </Section>
 
-                <div>
-                    <label htmlFor="email">
-                        E-Mail
-                    </label>
-
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                    />
-                </div>
-
-                <div>
-                    <label htmlFor="participants">
-                        Teilnehmer
-                    </label>
-
-                    <input
-                        type="number"
-                        id="participants"
-                        name="participants"
-                        min="1"
-                        value={formData.participants}
-                        onChange={handleChange}
-                    />
-                </div>
-
-                <div>
-                    <label htmlFor="eventId">
-                        Veranstaltung
-                    </label>
-
-                    <select
-                        id="eventId"
-                        name="eventId"
-                        value={formData.eventId}
-                        onChange={handleChange}
-                    >
-                        <option value="" disabled>
-                            Bitte wählen
-                        </option>
-
-                        <option value="1">
-                            React Grundlagen
-                        </option>
-
-                        <option value="2">
-                            JSX und Komponenten
-                        </option>
-
-                        <option value="3">
-                            State und Events
-                        </option>
-                    </select>
-                </div>
-
-                <button type="submit">
-                    Anmeldung senden
-                </button>
+                    {/* <InfoBox title="Achtung!">
+            <p>Anmeldeschluss ist jeweils 14 Tage vor dem Kursbeginn.</p>
+            <p>Aktuelle Infos und Änderungen findet Ihr auf unseren Social-Media-Kanälen oder Ihr meldet Euch zu unserem Newsletter an.</p>
+            <form action="#" method="post">
+              <input type="text" name="fullname" placeholder="vollständiger Name" />
+              <input type="email" name="email" placeholder="E-Mail-Adresse" />
+              <button type="submit">Newsletter abonnieren</button>
             </form>
+          </InfoBox> */}
 
-            <section className="registrations">
-                <h2>
-                    Anmeldungen ({registrations.length})
-                </h2>
+                    <RegistrationManager
+                        registrations={registrations}
+                        setRegistrations={setRegistrations}
+                    />
 
-                {registrations.length === 0 && (
-                    <p>
-                        Noch keine Anmeldungen vorhanden.
-                    </p>
-                )}
+                    <DeleteStorage
+                        setRegistrations={setRegistrations}
+                    />
 
-                {registrations.map((registration) => (
-                    <article
-                        key={registration.id}
-                        className="registration-card"
-                    >
-                        <h3>{registration.name}</h3>
+                </div>
 
-                        <p>
-                            E-Mail: {registration.email} <br />
-                            Teilnehmer: {registration.participants} <br />
-                            Event-ID: {registration.eventId}
-                        </p>
-                    </article>
-                ))}
-            </section>
-        </section>
+            </main>
+
+            <Footer />
+
+        </>
     );
 }
 
-
-
+root.render(<App />);

@@ -1,11 +1,11 @@
 import { createRoot } from "react-dom/client";
-import BookingForm from "./BookingForm";
+import NameEffect from "./NameEffect";
 
 
 function DemoApp() {
     return (
         <>
-            <BookingForm />
+            <NameEffect />
 
 
         </>
