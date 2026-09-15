@@ -11,7 +11,8 @@ export default function RegistrationManager(
     }
 ) {
     // useRef-Definition
-    /* const nameInputRef = useRef(null);
+    const nameInputRef = useRef(null);
+    /*
     const emailInputRef = useRef(null);
     const eventIdInputRef = useRef(null);
     const participantsInputRef = useRef(null); */

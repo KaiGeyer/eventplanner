@@ -1,13 +1,11 @@
 import { createRoot } from "react-dom/client";
-import NameEffect from "./NameEffect";
+import PreviousName from "./PreviousName.jsx";
 
 
 function DemoApp() {
     return (
         <>
-            <NameEffect />
-
-
+            <PreviousName />
         </>
     );
 }
@@ -17,3 +15,4 @@ const root = createRoot(
 );
 
 root.render(<DemoApp />);
+
