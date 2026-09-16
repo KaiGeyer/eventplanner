@@ -19,7 +19,7 @@ export default function Search({
                     onChange={event =>
                         setSearchTerm(event.target.value)
                     }
-                    placeholder="Titel eingeben"
+                    placeholder="Tiddtel eingeben"
                 />
             </div>
 

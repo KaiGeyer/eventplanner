@@ -22,6 +22,21 @@ export default function RegistrationForm({
                     />
                 </div>
                 <div>
+                    <label htmlFor="Problem">
+                        Problem
+                    </label>
+                    <input
+                        ref={inputRefs.problem}
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={formData.problem}
+                        onChange={onChange}
+                    />
+                </div>
+
+
+                <div>
                     <label htmlFor="email">
                         E-Mail
                     </label>
@@ -77,7 +92,7 @@ export default function RegistrationForm({
                 </div>
 
                 <button type="submit">
-                    Anmeldung senden
+                    Ticket erstellen
                 </button>
             </div>
         </form>
